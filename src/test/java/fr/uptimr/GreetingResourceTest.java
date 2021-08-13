@@ -1,4 +1,4 @@
-package fr.sledunois;
+package fr.uptimr;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package fr.sledunois;
+package fr.uptimr;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
