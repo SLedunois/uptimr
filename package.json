@@ -4,6 +4,8 @@
   "description": "This project uses Quarkus, the Supersonic Subatomic Java Framework.",
   "main": "index.js",
   "scripts": {
+    "build": "node_modules/.bin/webpack",
+    "build:css": "node_modules/.bin/tailwindcss -i ./src/main/index.css -o ./src/main/resources/META-INF/resources/dist/theme.css -m",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

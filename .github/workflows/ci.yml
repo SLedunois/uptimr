@@ -17,5 +17,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Setup PostgreSQL docker
+        run: docker-compose up -d postgres
       - name: Build
         run: ./mvnw verify -B

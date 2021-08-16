@@ -51,7 +51,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'main', 'resources', 'index.html'),
-            filename: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'index.html')
+            filename: path.resolve(__dirname, 'src', 'main', 'resources', 'templates', 'index.html'),
+            publicPath: '/dist'
         })
     ],
 };

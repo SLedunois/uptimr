@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Uptimr - Sign in</title>
+    <link rel="stylesheet" href="/dist/theme.css">
+</head>
+<!--https://dribbble.com/shots/14981045-Login-Sign-in/attachments/6700917?mode=media-->
+<body class="bg-background min-h-screen flex justify-center items-center flex-col">
+<img src="/images/logo.svg" alt="uptimr" class="w-36 mb-6">
+<div class="bg-white shadow-xl p-10 rounded-lg">
+    <form method="post" action="/auth/sign-in">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl mb-2">Welcome back</h1>
+            <p class="text-md font-light">Enter your credentials to access your account</p>
+        </div>
+        {#if error}
+        <div>
+            {error}
+        </div>
+        {/if}
+        <div>
+            <label for="username" class="relative">
+                <img src="/images/user.svg"
+                     class="absolute block fill-current h-6 left-4 text-blue-100 top-3.5 w-6 z-10 max-w-none"
+                     alt="Username">
+                <input type="text" id="username" name="username" placeholder="Enter your username"
+                       class="block border-2 border-blue-30 focus:border-blue-100 h-8 p-6 rounded-md w-96 mb-6 placeholder-black-100 transition-all pl-12"
+                       required>
+            </label>
+        </div>
+        <div>
+            <label for="password" class="relative">
+                <img src="/images/lock.svg"
+                     class="absolute block fill-current h-6 left-4 text-blue-100 top-3.5 w-6 z-10 max-w-none"
+                     alt="Password">
+                <input type="password" id="password" name="password" placeholder="Enter your password"
+                       class="block border-2 border-blue-30 focus:border-blue-100 h-8 p-6 rounded-md w-96 mb-6 placeholder-black-100 transition-all pl-12"
+                       required>
+            </label>
+        </div>
+        <input type="submit" value="Sign in"
+               class="block bg-blue-100 p-3.5 rounded-md w-96 text-white">
+    </form>
+</div>
+</body>
+</html>
