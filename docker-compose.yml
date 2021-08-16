@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:13.4
+    container_name: uptimr-pg
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: uptimr
+      POSTGRES_PASSWORD: uptimr
+      POSTGRES_DB: uptimr
