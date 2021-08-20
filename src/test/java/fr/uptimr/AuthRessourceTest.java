@@ -35,4 +35,16 @@ class AuthRessourceTest {
                 .then()
                 .statusCode(HttpStatus.SC_OK);
     }
+
+    @Test
+    @Order(3)
+    void getLoginPageWithAuthenticatedUser() {
+        given()
+                .auth().form("tom.mate", "password", new FormAuthConfig("/auth/sign-in", "username", "password"))
+                .when()
+                .get("/auth/sign-in")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("html.head.title", equalTo("Uptimr"));
+    }
 }
