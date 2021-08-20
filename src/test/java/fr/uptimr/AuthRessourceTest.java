@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Tag("integration")
-public class AuthRessourceTest {
+class AuthRessourceTest {
 
     @Test
     @DisplayName("Unauthenticated should returns login page")
