@@ -20,4 +20,7 @@ public interface AppMessages {
 
     @Message("Sign in")
     String signIn();
+
+    @Message("We couldn’t find an account matching the username and password you entered. Please check your username and password and try again.")
+    String credentialsError();
 }

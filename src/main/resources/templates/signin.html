@@ -5,7 +5,6 @@
     <title>Uptimr - {msg:signIn}</title>
     <link rel="stylesheet" href="/dist/theme.css">
 </head>
-<!--https://dribbble.com/shots/14981045-Login-Sign-in/attachments/6700917?mode=media-->
 <body class="bg-background min-h-screen flex justify-center items-center flex-col">
 <img src="/images/logo.svg" alt="uptimr" class="w-36 mb-6">
 <div class="bg-white shadow-xl p-10 rounded-lg">
@@ -15,8 +14,8 @@
             <p class="text-md font-light">{msg:enterCredentials}</p>
         </div>
         {#if error}
-        <div>
-            {error}
+        <div class="text-red-100 p-6 bg-red-10 rounded-xl w-96 mb-6 border-red-30 border-2">
+            {msg:credentialsError}
         </div>
         {/if}
         <div>
