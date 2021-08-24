@@ -9,13 +9,35 @@ module.exports = {
         poll: true
     },
     devServer: {
-        index: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'dist', 'index.html'),
-        filename: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'dist', 'bundle.js'),
-        contentBase: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources'),
-        watchContentBase: true,
+        historyApiFallback: true,
         compress: true,
-        port: 9000,
-        publicPath: '/dist'
+        disableHostCheck: true,
+        host: '0.0.0.0',
+        port: 8090,
+        contentBase: path.resolve(__dirname, 'src', 'main', 'resources', 'templates'),
+        publicPath: '/dist',
+        hot: true,
+        overlay: true,
+        watchOptions: {
+            poll: 300
+        },
+        proxy: {
+            '/**': {  //catch all requests
+                target: '/index.html',  //default target
+                secure: false,
+                bypass: function (req, res, opt) {
+                    //your custom code to check for any exceptions
+                    //console.log('bypass check', {req: req, res:res, opt: opt});
+                    if (req.path.indexOf('/incidents') !== -1 || req.path.indexOf('/heartbeats') !== -1) {
+                        return '/'
+                    }
+
+                    if (req.headers.accept.indexOf('html') !== -1) {
+                        return '/index.html';
+                    }
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -43,6 +65,12 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+        alias: {
+            '@images': path.resolve(__dirname, 'src/main/resources/META-INF/resources/images'),
+            '@locales': path.resolve(__dirname, 'src/main/resources/locales'),
+            '@components': path.resolve(__dirname, 'src/main/ts/components'),
+            '@app': path.resolve(__dirname, 'src/main/ts')
+        }
     },
     output: {
         filename: 'bundle.js',

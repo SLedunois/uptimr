@@ -4,24 +4,20 @@ import io.quarkus.arc.log.LoggerName;
 import io.vertx.mutiny.sqlclient.Row;
 import org.jboss.logging.Logger;
 
+import java.util.Objects;
+
 public class User {
-    @LoggerName("fr.uptimr.User")
+    @LoggerName("fr.uptimr.startup.User")
     static Logger log;
 
-    private String id;
-    private String username;
+    public String id;
+    public String username;
+    public String firstname;
+    public String lastname;
     private String password;
     private String role;
     private String salt;
     private int iteration;
-
-    public String id() {
-        return this.id;
-    }
-
-    public String username() {
-        return this.username;
-    }
 
     public String password() {
         return this.password;
@@ -40,12 +36,14 @@ public class User {
     }
 
     public boolean isNew() {
-        return this.id() == null;
+        return Objects.isNull(this.id);
     }
 
-    public static User create(String username, String password, String role) {
+    public static User create(String username, String firstname, String lastname, String password, String role) {
         var user = new User();
         user.username = username;
+        user.firstname = firstname;
+        user.lastname = lastname;
         user.role = role;
         try {
             var pwd = new Password(password);
@@ -63,6 +61,8 @@ public class User {
         var user = new User();
         user.id = row.getString("id");
         user.username = row.getString("username");
+        user.firstname = row.getString("firstname");
+        user.lastname = row.getString("lastname");
         user.role = row.getString("role");
         user.password = row.getString("password");
         return user;

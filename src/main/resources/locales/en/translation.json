@@ -1,0 +1,16 @@
+{
+  "navigation": {
+    "monitors": "Monitors",
+    "heartbeats": "Heartbeats",
+    "incidents": "Incidents"
+  },
+  "sign-out": "Sign out",
+  "welcome-message": {
+    "message": "Good {{ keyword }} {{ name }}",
+    "morning": "morning",
+    "afternoon": "afternoon",
+    "evening": "evening",
+    "night": "night",
+    "day": "day"
+  }
+}

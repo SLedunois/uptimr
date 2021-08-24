@@ -1,6 +1,5 @@
 package fr.uptimr;
 
-import fr.uptimr.i18n.AppMessages;
 import fr.uptimr.i18n.I18N;
 import io.quarkus.qute.Template;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -19,10 +18,7 @@ import java.util.HashMap;
 
 @Path("/auth")
 public class AuthResource {
-
-    @Inject
-    AppMessages messages;
-
+    
     @Inject
     SecurityIdentity identity;
 
@@ -33,7 +29,7 @@ public class AuthResource {
     @Path("/sign-in")
     @Produces(MediaType.TEXT_HTML)
 
-    public Response signin(@Context HttpHeaders headers, @QueryParam("error") String error) {
+    public Response signIn(@Context HttpHeaders headers, @QueryParam("error") String error) {
         if (identity.isAnonymous()) {
             var lang = I18N.getLocale(headers);
             var data = new HashMap<>();

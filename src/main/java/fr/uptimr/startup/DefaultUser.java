@@ -1,4 +1,4 @@
-package fr.uptimr;
+package fr.uptimr.startup;
 
 import fr.uptimr.bean.User;
 import fr.uptimr.repository.UserRepository;
@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 import java.time.Duration;
 
 @Singleton
-public class Startup {
+public class DefaultUser {
 
     @LoggerName("fr.uptimr.Startup")
     Logger log;
@@ -25,11 +25,17 @@ public class Startup {
     String username;
 
     @ConfigProperty(name = "uptimr.default.password")
-    String passsword;
+    String password;
+
+    @ConfigProperty(name = "uptimr.default.firstname")
+    String firstname;
+
+    @ConfigProperty(name = "uptimr.default.lastname")
+    String lastname;
 
     public void loadDefaultUser(@Observes StartupEvent evt) {
         log.info("Checking default user.");
-        var user = User.create(username, passsword, "admin");
+        var user = User.create(username, firstname, lastname, password, "admin");
 
         users.findByUsername(username)
                 .onItem().ifNull().switchTo(() -> {
@@ -37,7 +43,7 @@ public class Startup {
                     return users.persist(user);
                 })
                 .onItem().transform(defaultUser -> {
-                    log.info(String.format("Default user in database. Username: %s", defaultUser.username()));
+                    log.info(String.format("Default user in database. Username: %s", defaultUser.username));
                     return defaultUser;
                 })
                 .await().atMost(Duration.ofSeconds(10));

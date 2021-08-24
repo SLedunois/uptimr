@@ -11,7 +11,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Tag("integration")
 class AuthRessourceTest {
 
     @Test

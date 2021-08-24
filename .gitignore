@@ -42,3 +42,4 @@ nb-configuration.xml
 src/main/resources/META-INF/resources/dist
 src/main/resources/META-INF/resources/index.html
 node_modules
+coverage

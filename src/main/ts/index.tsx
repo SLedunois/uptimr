@@ -2,12 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import '../index.css';
+import App from "./containers/app/app";
 
-const Uptimr = () => (
-    <h1 className="text-4xl text-green-600 font-bold">Uptimr</h1>
-);
+import graphql from './graphql';
+
+import './i18n';
+import {ApolloProvider} from "@apollo/client";
+
+declare const document: Document;
+declare const window: Window;
+
+if (document.cookie.length === 0) {
+    window.location.href = '/auth/sign-in';
+}
 
 ReactDOM.render(
-    <Uptimr />,
+    <ApolloProvider client={graphql}>
+        <App/>
+    </ApolloProvider>,
     document.getElementById('uptimr')
 );
