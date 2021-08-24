@@ -9,13 +9,17 @@ module.exports = {
         poll: true
     },
     devServer: {
-        index: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'dist', 'index.html'),
-        filename: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources', 'dist', 'bundle.js'),
-        contentBase: path.resolve(__dirname, 'src', 'main', 'resources', 'META-INF', 'resources'),
-        watchContentBase: true,
         compress: true,
-        port: 9000,
-        publicPath: '/dist'
+        disableHostCheck: true,
+        host: '0.0.0.0',
+        port: 8090,
+        contentBase: path.resolve(__dirname, 'src', 'main', 'resources', 'templates'),
+        publicPath: '/dist',
+        hot: true,
+        overlay: true,
+        watchOptions: {
+            poll: 300
+        }
     },
     module: {
         rules: [
