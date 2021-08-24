@@ -7,6 +7,22 @@
     "jsx": "react",
     "allowJs": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "paths": {
+      "@images/*": [
+        "./src/main/resources/META-INF/resources/images/*"
+      ],
+      "@locales/*": [
+        "./src/main/resources/locales/*"
+      ],
+      "@components/*": [
+        "./src/main/ts/components/*"
+      ],
+      "@app/*": [
+        "./src/main/ts/*"
+      ]
+    }
   }
 }

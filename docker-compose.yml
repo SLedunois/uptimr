@@ -9,3 +9,37 @@ services:
       POSTGRES_USER: uptimr
       POSTGRES_PASSWORD: uptimr
       POSTGRES_DB: uptimr
+  front:
+    container_name: uptimr-front
+    image: node:12
+    working_dir: /home/node/app
+    volumes:
+      - "./:/home/node/app"
+      - "~/.npmrc:/home/node/.npmrc"
+    command: npm run serve
+    ports:
+      - "8090:8090"
+  server:
+    container_name: uptimr-server
+    image: maven:3.8-jdk-11
+    working_dir: /usr/src/app
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - "./:/usr/src/app"
+    command: mvn compile quarkus:dev
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
+  nginx:
+    container_name: uptimr-nginx
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - front
+      - postgres
+#      - server

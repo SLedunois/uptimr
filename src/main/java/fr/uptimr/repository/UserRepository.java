@@ -9,6 +9,7 @@ import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -19,11 +20,12 @@ public class UserRepository {
     public Uni<User> persist(User user) {
         Uni<RowSet<Row>> uni;
         if (user.isNew()) {
-            uni = client.preparedQuery("INSERT INTO users (id, username, password, salt, iteration,  role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *")
-                    .execute(Tuple.of(UUID.randomUUID().toString(), user.username(), user.password(), user.salt(), user.iteration(), user.role()));
+            var params = Arrays.asList(UUID.randomUUID().toString(), user.username, user.password(), user.salt(), user.iteration(), user.role(), user.firstname, user.lastname);
+            uni = client.preparedQuery("INSERT INTO users (id, username, password, salt, iteration,  role, firstname, lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *")
+                    .execute(Tuple.from(params));
         } else {
-            uni = client.preparedQuery("UPDATE users SET username = $1, password = $2, role = $3 RETURNING *")
-                    .execute(Tuple.of(user.username(), user.password(), user.role()));
+            uni = client.preparedQuery("UPDATE users SET username = $1, password = $2, role = $3, firstname = $4, lastname = $5 RETURNING *")
+                    .execute(Tuple.of(user.username, user.password(), user.role(), user.firstname, user.lastname));
         }
 
         return uni.onItem().transform(RowSet::iterator)
@@ -31,7 +33,7 @@ public class UserRepository {
     }
 
     public Uni<User> findByUsername(String username) {
-        return client.preparedQuery("SELECT id, username, password, role FROM users WHERE username = $1")
+        return client.preparedQuery("SELECT id, username, password, role, firstname, lastname FROM users WHERE username = $1")
                 .execute(Tuple.of(username))
                 .onItem().transform(RowSet::iterator)
                 .onItem().transform(u -> u.hasNext() ? User.from(u.next()) : null);

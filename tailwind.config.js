@@ -116,7 +116,7 @@ module.exports = {
             purple: PURPLE,
             green: GREEN,
             white: '#FFFFFF',
-            background: '#FBFBFB'
+            background: '#f9f9f9'
         },
         fontFamily: {
             'sans': ['Lato', 'Helvetica', 'Arial', 'sans-serif']
