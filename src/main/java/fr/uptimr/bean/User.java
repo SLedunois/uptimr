@@ -5,12 +5,13 @@ import io.vertx.mutiny.sqlclient.Row;
 import org.jboss.logging.Logger;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class User {
     @LoggerName("fr.uptimr.startup.User")
     static Logger log;
 
-    public String id;
+    public UUID id;
     public String username;
     public String firstname;
     public String lastname;
@@ -59,7 +60,7 @@ public class User {
 
     public static User from(Row row) {
         var user = new User();
-        user.id = row.getString("id");
+        user.id = row.get(UUID.class, "id");
         user.username = row.getString("username");
         user.firstname = row.getString("firstname");
         user.lastname = row.getString("lastname");

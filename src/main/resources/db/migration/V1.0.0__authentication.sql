@@ -1,6 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE users
 (
-    id        CHARACTER VARYING(36)  NOT NULL PRIMARY KEY,
+    id        UUID                   NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     password  CHARACTER VARYING(255) NOT NULL,
     salt      CHARACTER VARYING(255) NOT NULL,
     iteration INT                    NOT NULL,

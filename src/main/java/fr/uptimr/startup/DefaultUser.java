@@ -35,12 +35,11 @@ public class DefaultUser {
 
     public void loadDefaultUser(@Observes StartupEvent evt) {
         log.info("Checking default user.");
-        var user = User.create(username, firstname, lastname, password, "admin");
 
         users.findByUsername(username)
                 .onItem().ifNull().switchTo(() -> {
                     log.info("Default user does not exists. Launching default user creation.");
-                    return users.persist(user);
+                    return users.persist(User.create(username, firstname, lastname, password, "admin"));
                 })
                 .onItem().transform(defaultUser -> {
                     log.info(String.format("Default user in database. Username: %s", defaultUser.username));
