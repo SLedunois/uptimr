@@ -5,6 +5,8 @@ import WelcomeMessage from "@components/message";
 import {useTranslation} from "react-i18next";
 import {IUser} from "../../types";
 
+declare const document: Document;
+
 type IHeader = {
     user: IUser
 }
@@ -22,7 +24,11 @@ const Header: FunctionComponent<IHeader> = ({user}) => {
         {
             label: t('sign-out'),
             icon: <LogoutIcon/>,
-            action: () => alert("Logged out!")
+            action: () => {
+                document.cookie = 'Uptimr-Session=; Max-Age=0';
+                document.location.href = '/auth/sign-in';
+                return true;
+            }
         }
     ]
 
