@@ -4,9 +4,9 @@ name: Quarkus Codestart CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
   build:
@@ -20,4 +20,4 @@ jobs:
       - name: Setup PostgreSQL docker
         run: docker-compose up -d postgres
       - name: Build
-        run: ./mvnw verify -B
+        run: npm install && npm test && ./mvnw verify -B
