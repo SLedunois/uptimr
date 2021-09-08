@@ -15,7 +15,7 @@ import java.time.Duration;
 @Singleton
 public class DefaultUser {
 
-    @LoggerName("fr.uptimr.Startup")
+    @LoggerName("Startup - Default user check")
     Logger log;
 
     @Inject

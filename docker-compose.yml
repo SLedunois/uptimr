@@ -40,6 +40,6 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     links:
-      - front
+      #      - front
       - postgres
 #      - server

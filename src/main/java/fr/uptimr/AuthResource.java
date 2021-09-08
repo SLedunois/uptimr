@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 @Path("/auth")
 public class AuthResource {
-    
+
     @Inject
     SecurityIdentity identity;
 
@@ -28,7 +28,6 @@ public class AuthResource {
     @GET
     @Path("/sign-in")
     @Produces(MediaType.TEXT_HTML)
-
     public Response signIn(@Context HttpHeaders headers, @QueryParam("error") String error) {
         if (identity.isAnonymous()) {
             var lang = I18N.getLocale(headers);

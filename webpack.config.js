@@ -5,6 +5,7 @@ module.exports = {
     entry: path.resolve(__dirname, 'src', 'main', 'ts', 'index.tsx'),
     target: 'web',
     mode: 'development',
+    devtool: 'inline-source-map',
     watchOptions: {
         poll: true
     },
@@ -44,7 +45,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/,
+                exclude: [path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, 'target')],
             },
             {
                 test: /\.css$/,

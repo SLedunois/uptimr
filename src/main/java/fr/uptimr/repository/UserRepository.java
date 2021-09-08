@@ -7,11 +7,11 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Arrays;
 
-@ApplicationScoped
+@Singleton
 public class UserRepository {
     @Inject
     PgPool client;
