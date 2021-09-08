@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import {gql, useQuery} from "@apollo/client";
 
 import Sidebar, {INavigationItem} from "../../components/sidebar";
@@ -13,7 +13,7 @@ const navigation: INavigationItem[] = [
     {
         key: 'navigation.monitors',
         icon: <MonitorBadge/>,
-        path: '/'
+        path: '/monitors'
     },
     {
         key: 'navigation.heartbeats',
@@ -40,18 +40,17 @@ query getCurrentUser($username: String) {
 
 const App = () => {
     const {loading, error, data} = useQuery(FETCH_USER, {variables: {username: null}});
-    console.log(loading, error, data);
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
     return (
         <Router>
-            <div className="flex flex-row flex-1 w-full">
+            <div className="flex flex-row flex-1 w-full bg-background">
                 <Sidebar navigation={navigation}/>
                 <div className="w-full">
                     <Header user={data.getUser}/>
                     <Switch>
-                        <Route path="/" exact>
+                        <Route path="/monitors">
                             <Monitors/>
                         </Route>
                         <Route path="/heartbeats">
@@ -59,6 +58,9 @@ const App = () => {
                         </Route>
                         <Route path="/incidents">
                             <Incidents/>
+                        </Route>
+                        <Route path="/" exact>
+                            <Redirect to="/monitors"/>
                         </Route>
                     </Switch>
                 </div>

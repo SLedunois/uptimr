@@ -12,5 +12,31 @@
     "evening": "evening",
     "night": "night",
     "day": "day"
+  },
+  "monitors": {
+    "title": "Your monitors",
+    "create": "Create monitor",
+    "details": "Monitor details",
+    "form": {
+      "name": "Name",
+      "target": "Target",
+      "cron": "Cron",
+      "cron-description": "Next tick trigger on {{ date }}",
+      "cron-description-error": "Invalid cron expression",
+      "details": "Configure your monitor details such as target and cron expression. By default cron uses 0 0/1 * 1/1 * ? expression and run every minutes. Generate your cron expression using <a target=\"_blank\" class=\"text-blue-100 font-bold\"href=\"https://www.freeformatter.com/cron-expression-generator-quartz.html\">Free formatter quartz cron</a>",
+      "settings": {
+        "advanced": "Advanced settings",
+        "details": "Configure your monitor advanced settings such as expected HTTP status code, body validation (json path, xml path).",
+        "status_code": "Expected HTTP status code",
+        "content_check_type": {
+          "label": "Content check type",
+          "json": "JSON path",
+          "xml": "XML path",
+          "null": "Please do no check the body",
+          "expression": "Content check expression",
+          "content": "Expected content check value"
+        }
+      }
+    }
   }
 }
