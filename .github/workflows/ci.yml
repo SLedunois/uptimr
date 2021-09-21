@@ -22,4 +22,4 @@ jobs:
       - name: Setup PostgreSQL docker
         run: docker-compose up -d postgres
       - name: Build
-        run: npm install && npm test && ./mvnw verify -B
+        run: npm install && npm test && docker-compose up test
