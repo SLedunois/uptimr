@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Build docker image
-        run: ./mvnw clean package -Dquarkus.container-image.build=true
+        run: ./mvnw clean package -DskipTests -Dquarkus.container-image.build=true
       - name: Setup PostgreSQL docker
         run: docker-compose up -d postgres
       - name: Build
