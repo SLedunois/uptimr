@@ -42,4 +42,17 @@ services:
     links:
       #      - front
       - postgres
-#      - server
+  #      - server
+  test:
+    container_name: uptimr-server
+    image: runner/uptimr:1.0.0-SNAPSHOT
+    working_dir: /usr/src/app
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - "./:/usr/src/app"
+    command: ./mvn verify -B
+    ports:
+      - "8080:8080"
+    links:
+      - postgres
