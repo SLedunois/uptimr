@@ -42,8 +42,8 @@ const MonitorsList: FunctionComponent = () => {
     return (
         <div>
             <div className="flex items-center justify-between">
-                <Headline.Title label="monitors.title"/>
-                <Button.Primary label={t("monitors.create")}
+                <Headline.Title label={t('monitors.title')}/>
+                <Button.Primary label={t('monitors.create')}
                                 onClick={() => history.push('/monitors/new')}/>
             </div>
             <ul>

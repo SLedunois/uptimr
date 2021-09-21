@@ -5,6 +5,8 @@ import WelcomeMessage from "@components/message";
 import {useTranslation} from "react-i18next";
 import {IUser} from "../../types";
 
+import Logo from '@images/logo.svg'
+
 declare const document: Document;
 
 type IHeader = {
@@ -33,8 +35,12 @@ const Header: FunctionComponent<IHeader> = ({user}) => {
     ]
 
     return (
-        <header className="flex items-center h-20 w-full z-10 bg-white border-b border-black-10 justify-between">
-            <WelcomeMessage name={`${user.firstname} ${user.lastname}`} hour={new Date().getHours()} className="ml-8"/>
+        <header className="flex items-center h-20 w-full z-10 bg-white border-b border-black-10 justify-between fixed">
+            <a className="inline-flex items-center justify-center h-full">
+                <img src={Logo} alt="Uptimr" className="h-1/2 ml-8"/>
+            </a>
+            <WelcomeMessage name={`${user.firstname} ${user.lastname}`} hour={new Date().getHours()}
+                            className="ml-8"/>
             <Dropdown button={<DropDownButton/>} items={dropDownItems} className="justify-self-end mr-20"/>
         </header>
     )

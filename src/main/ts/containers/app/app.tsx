@@ -45,10 +45,10 @@ const App = () => {
 
     return (
         <Router>
-            <div className="flex flex-row flex-1 w-full bg-background">
+            <div className="flex flex-row flex-1 w-full bg-background min-h-screen">
+                <Header user={data.getUser}/>
                 <Sidebar navigation={navigation}/>
-                <div className="w-full">
-                    <Header user={data.getUser}/>
+                <div className="w-full h-full pt-20 pl-20">
                     <Switch>
                         <Route path="/monitors">
                             <Monitors/>
