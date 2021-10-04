@@ -138,6 +138,6 @@ public class Processor implements Job {
                 }).recoverWithNull()
                 .onItem().transform(response -> performChecks(monitor, response, metric, ctx))
                 .onItem().transformToUni(unused -> metrics.create(metric))
-                .subscribe().with(obj -> log.debug(String.format("Metric %s saved form monitor %s", obj.id.toString(), obj.monitorId.toString())));
+                .subscribe().with(obj -> log.debug(String.format("Metric %s saved form monitor %s", obj.fireTime, obj.monitorId.toString())));
     }
 }

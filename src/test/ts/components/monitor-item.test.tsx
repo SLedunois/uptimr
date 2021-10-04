@@ -10,7 +10,9 @@ const monitor: IMonitor = {
     name: 'monitor-name',
     target: 'http://localhost:3000/health_check',
     owner: 'owner-id',
-    status: 'SUCCESS'
+    status: 'SUCCESS',
+    uptime: null,
+    lastCheck: null
 }
 
 test('MonitorItem should renders properly', () => {

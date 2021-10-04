@@ -1,14 +1,16 @@
 version: '3.7'
 services:
-  postgres:
-    image: postgres:13.4
-    container_name: uptimr-pg
+  database:
+    image: timescale/timescaledb:latest-pg12
+    container_name: uptimr-db
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: uptimr
       POSTGRES_PASSWORD: uptimr
       POSTGRES_DB: uptimr
+      TZ: 'UTC'
+      PGTZ: 'UTC'
   front:
     container_name: uptimr-front
     image: node:12
@@ -41,5 +43,5 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     links:
       #      - front
-      - postgres
+      - database
 #      - server

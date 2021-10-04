@@ -37,6 +37,12 @@
           "content": "Expected content check value"
         }
       }
-    }
-  }
+    },
+    "currently_uptime": "Currently up for",
+    "last_check": "Last check at"
+  },
+  "days": "days",
+  "hours": "hours",
+  "minutes": "minutes",
+  "seconds": "seconds"
 }

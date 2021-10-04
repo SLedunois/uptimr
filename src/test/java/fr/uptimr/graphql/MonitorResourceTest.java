@@ -88,6 +88,26 @@ class MonitorResourceTest {
 
     @Test
     @Order(3)
+    @DisplayName("Query previous created monitor")
+    void fetchPreviousCreatedMonitor() {
+        var queryName = "getMonitor";
+        var query = "query getMonitor($id: String) {" +
+                "    getMonitor(id: $id) {" +
+                "        id" +
+                "    }" +
+                "}";
+        var variables = new JsonObject()
+                .put("id", monitorId);
+
+        GraphQL.query(queryName, query, variables)
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .contentType(ContentType.JSON)
+                .body(String.format("data.%s.id", queryName), is(monitorId));
+    }
+
+    @Test
+    @Order(4)
     @DisplayName("Delete previous created monitor")
     void deletePreviousCreatedMonitor() {
         var mutationName = "deleteMonitor";

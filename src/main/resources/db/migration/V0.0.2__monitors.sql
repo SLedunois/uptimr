@@ -12,12 +12,12 @@ CREATE TABLE monitors
     expected_content_type       CHARACTER VARYING CHECK ( expected_content_type IN (null, 'xml', 'json')),
     expected_content_expression CHARACTER VARYING,
     expected_content_value      CHARACTER VARYING,
+    last_check                  TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT fk_users_id FOREIGN KEY (owner) REFERENCES users (id)
 );
 
 CREATE TABLE monitors_metrics
 (
-    id         UUID                        NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     monitor_id UUID                        NOT NULL,
     target     CHARACTER VARYING           NOT NULL,
     time       BIGINT                      NOT NULL,
@@ -49,9 +49,17 @@ $BODY$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION update_monitor_uptime() RETURNS TRIGGER AS
 $BODY$
+DECLARE
+    last_check TIMESTAMP WITHOUT TIME ZONE;
 BEGIN
     IF NEW.status = 'SUCCESS' AND OLD.uptime IS NULL THEN
-        NEW.uptime = now();
+        SELECT fire_time
+        FROM monitors_metrics
+        WHERE monitor_id = NEW.id
+        ORDER BY fire_time DESC
+        LIMIT 1
+        INTO last_check;
+        NEW.uptime = last_check;
     END IF;
 
     IF NEW.status = 'ERROR' THEN
@@ -62,6 +70,25 @@ BEGIN
 END;
 $BODY$
     LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION update_monitor_last_check() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    UPDATE monitors SET last_check = NEW.fire_time WHERE id = NEW.monitor_id;
+
+    RETURN NEW;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION notify_monitor_last_check_changes() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    PERFORM pg_notify('monitor_last_check_change', row_to_json(NEW)::text);
+
+    RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_monitor_uptime_trigger
     BEFORE UPDATE OF status
@@ -80,3 +107,26 @@ CREATE TRIGGER update_monitor_state_changes_trigger
     ON monitors
     FOR EACH ROW
 EXECUTE PROCEDURE notify_monitor_state_changes();
+
+
+CREATE TRIGGER update_monitor_last_check_trigger
+    AFTER INSERT
+    ON monitors_metrics
+    FOR EACH ROW
+EXECUTE PROCEDURE update_monitor_last_check();
+
+CREATE TRIGGER notify_monitor_last_check_changes_trigger
+    AFTER UPDATE OF last_check
+    ON monitors
+    FOR EACH ROW
+EXECUTE PROCEDURE notify_monitor_last_check_changes();
+
+CREATE OR REPLACE FUNCTION format_date(date TIMESTAMP WITHOUT TIME ZONE) RETURNS CHARACTER VARYING AS
+$BODY$
+BEGIN
+    RETURN TO_CHAR(date, 'YYYY-MM-DD HH24:MI:SS');
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+SELECT create_hypertable('monitors_metrics', 'fire_time');

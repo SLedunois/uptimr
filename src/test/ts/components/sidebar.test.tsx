@@ -26,5 +26,5 @@ test('Sidebar items renders properly', () => {
         </MemoryRouter>
     );
 
-    expect(container.querySelector('.sidebar-link').textContent).toEqual('Monitors');
+    expect(container.querySelector('.sidebar-link > a').getAttribute('href')).toEqual('/monitors');
 });

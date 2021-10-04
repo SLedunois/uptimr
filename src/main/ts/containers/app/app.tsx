@@ -2,12 +2,12 @@ import React from 'react';
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import {gql, useQuery} from "@apollo/client";
 
-import Sidebar, {INavigationItem} from "../../components/sidebar";
-import {HeartbeatsBadge, IncidentsBadge, MonitorBadge} from "../../components/badge";
+import Sidebar, {INavigationItem} from "@components/sidebar";
+import {HeartbeatsBadge, IncidentsBadge, MonitorBadge} from "@components/badge";
 import Header from "./header";
-import Monitors from "../monitors/monitors";
-import Heartbeats from "../heartbeats/Heartbeats";
-import Incidents from "../incidents/Incidents";
+import Monitors from "@app/containers/monitors/monitors";
+import Heartbeats from "@app/containers/heartbeats/Heartbeats";
+import Incidents from "@app/containers/incidents/Incidents";
 
 const navigation: INavigationItem[] = [
     {

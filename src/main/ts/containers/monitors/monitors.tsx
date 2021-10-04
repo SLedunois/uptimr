@@ -1,22 +1,28 @@
 import React, {FunctionComponent} from 'react';
 import {Container} from "@components/container";
-import {Route, Switch, useRouteMatch} from "react-router-dom";
-import MonitorsList from "@app/containers/monitors/monitors-list";
+import {Route, Switch, useLocation, useRouteMatch} from "react-router-dom";
 import MonitorsForm from "@app/containers/monitors/monitors-form";
-import {withNotify} from "@app/hooks/notify";
-
-const MonitorsListHOC = withNotify('/subscribers/monitors/status', 'monitor_changes', MonitorsList);
+import {MonitorsDetailsHOC} from "@app/containers/monitors/monitors-details";
+import Breadcrumb from "@components/breadcrumb";
+import {MonitorsListHOC} from "@app/containers/monitors/monitors-list";
 
 const Monitors: FunctionComponent = () => {
     const {path} = useRouteMatch();
+    const {pathname} = useLocation();
     return (
         <Container>
+            {
+                pathname !== path && <Breadcrumb label="Monitors" to="/monitors"/>
+            }
             <Switch>
                 <Route path={path} exact>
                     <MonitorsListHOC/>
                 </Route>
                 <Route path={`${path}/new`}>
                     <MonitorsForm/>
+                </Route>
+                <Route path={`${path}/:id`}>
+                    <MonitorsDetailsHOC/>
                 </Route>
             </Switch>
         </Container>

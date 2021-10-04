@@ -31,6 +31,7 @@ export function withNotify(endpoint: string, event: string, WrappedComponent: an
                 sse.close();
             }
         })
+        
         return (<WrappedComponent/>)
     }
 }
