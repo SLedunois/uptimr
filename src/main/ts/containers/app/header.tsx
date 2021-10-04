@@ -3,7 +3,7 @@ import Dropdown from "@components/dropdown";
 import {LogoutIcon, UserIcon} from "../../icons";
 import WelcomeMessage from "@components/message";
 import {useTranslation} from "react-i18next";
-import {IUser} from "../../types";
+import {IUser} from "@app/types";
 
 import Logo from '@images/logo.svg'
 

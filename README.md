@@ -65,6 +65,8 @@ Easily start your RESTful Web Services
 https://stackoverflow.com/questions/8815012/how-to-run-ping-command-and-get-ping-host-summary
 https://code.google.com/archive/p/jpingy/
 https://fkhadra.github.io/react-toastify/introduction
+https://airbnb.io/visx
+https://github.com/airbnb/react-dates
 
 # Inspiration
 

@@ -14,6 +14,8 @@ public class Monitor {
     public String cron;
     public UUID owner;
     public String status;
+    public String uptime;
+    public String lastCheck;
     public MonitorCheck check;
 
     public static Monitor from(Row row) {
@@ -28,6 +30,8 @@ public class Monitor {
         monitor.cron = obj.getString("cron");
         monitor.owner = UUID.fromString(obj.getString("owner"));
         monitor.status = obj.getString("status");
+        monitor.uptime = obj.getString("uptime");
+        monitor.lastCheck = obj.getString("last_check");
         monitor.check = MonitorCheck.from(obj);
         return monitor;
     }
@@ -40,6 +44,7 @@ public class Monitor {
                 .put("cron", this.cron)
                 .put("owner", this.owner)
                 .put("status", this.status)
+                .put("lastCheck", this.lastCheck)
                 .put("check", this.check.toJson());
     }
 

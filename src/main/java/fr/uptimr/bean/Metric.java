@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Metric {
-    public UUID id;
     public UUID monitorId;
     public String target;
     public long time;
@@ -20,7 +19,6 @@ public class Metric {
 
     public static Metric from(Row row) {
         var metric = new Metric();
-        metric.id = row.get(UUID.class, "id");
         metric.target = row.getString("target");
         metric.monitorId = row.get(UUID.class, "monitor_id");
         metric.status = row.getString("status");

@@ -4,5 +4,7 @@ export type IMonitor = {
     target: string,
     name: string,
     owner: string,
+    uptime: string,
+    lastCheck: string,
     status: 'WAITING' | 'SUCCESS' | 'ERROR'
 }

@@ -19,7 +19,7 @@ public class MonitorRepository {
     PgPool client;
 
     public Uni<List<Monitor>> list() {
-        return client.query("SELECT * from monitors ORDER BY created ASC")
+        return client.query("SELECT *, format_date(uptime) as uptime, format_date(last_check) as last_check from monitors ORDER BY created ASC")
                 .execute()
                 .onItem().transformToMulti(RowSet::toMulti)
                 .map(Monitor::from)
@@ -34,6 +34,13 @@ public class MonitorRepository {
                 .onItem().transform(RowSet::iterator)
                 .onItem().transform(u -> u.hasNext() ? Monitor.from(u.next()) : null);
 
+    }
+
+    public Uni<Monitor> get(UUID id) {
+        return client.preparedQuery("SELECT *, format_date(uptime) as uptime, format_date(last_check) as last_check FROM monitors WHERE id = $1")
+                .execute(Tuple.of(id))
+                .onItem().transform(RowSet::iterator)
+                .onItem().transform(m -> m.hasNext() ? Monitor.from(m.next()) : null);
     }
 
     public Uni<Monitor> delete(UUID id) {

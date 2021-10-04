@@ -9,10 +9,7 @@ import io.quarkus.security.Authenticated;
 import io.quarkus.security.identity.SecurityIdentity;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.eventbus.EventBus;
-import org.eclipse.microprofile.graphql.Description;
-import org.eclipse.microprofile.graphql.GraphQLApi;
-import org.eclipse.microprofile.graphql.Mutation;
-import org.eclipse.microprofile.graphql.Query;
+import org.eclipse.microprofile.graphql.*;
 import org.quartz.CronScheduleBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -48,6 +45,12 @@ public class MonitorResource {
         } catch (RuntimeException e) {
             throw new InvalidCronException(e.getMessage());
         }
+    }
+
+    @Query("getMonitor")
+    @Description("Get specific monitor. It retrieves monitor based on given id parameter")
+    public Uni<Monitor> getMonitor(@Name("id") UUID id) {
+        return monitors.get(id);
     }
 
     @Mutation

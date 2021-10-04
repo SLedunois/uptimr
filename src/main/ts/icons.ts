@@ -3,7 +3,7 @@ export {
     FiAlertOctagon as IncidentsIcon,
     FiBarChart2 as MonitorIcon,
     FiUser as UserIcon,
-    FiChevronDown as ChevronDownIcon,
+    FiChevronLeft as ChevronLeftIcon,
     FiCheck as CheckIcon,
     FiLogOut as LogoutIcon,
     FiPlus as PlusIcon,
