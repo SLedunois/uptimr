@@ -30,7 +30,7 @@ CREATE TABLE monitors_metrics
 CREATE OR REPLACE FUNCTION update_monitor_state() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    UPDATE monitors SET status = NEW.status WHERE id = NEW.monitor_id;
+    UPDATE monitors SET status = NEW.status, last_check = NEW.fire_time WHERE id = NEW.monitor_id;
 
     RETURN NEW;
 END;
@@ -49,32 +49,14 @@ $BODY$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION update_monitor_uptime() RETURNS TRIGGER AS
 $BODY$
-DECLARE
-    last_check TIMESTAMP WITHOUT TIME ZONE;
 BEGIN
     IF NEW.status = 'SUCCESS' AND OLD.uptime IS NULL THEN
-        SELECT fire_time
-        FROM monitors_metrics
-        WHERE monitor_id = NEW.id
-        ORDER BY fire_time DESC
-        LIMIT 1
-        INTO last_check;
-        NEW.uptime = last_check;
+        NEW.uptime = NEW.last_check;
     END IF;
 
     IF NEW.status = 'ERROR' THEN
         NEW.uptime = null;
     END IF;
-
-    RETURN NEW;
-END;
-$BODY$
-    LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION update_monitor_last_check() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    UPDATE monitors SET last_check = NEW.fire_time WHERE id = NEW.monitor_id;
 
     RETURN NEW;
 END;
@@ -92,12 +74,6 @@ CREATE TRIGGER update_monitor_state_trigger
     ON monitors_metrics
     FOR EACH ROW
 EXECUTE PROCEDURE update_monitor_state();
-
-CREATE TRIGGER update_monitor_last_check_trigger
-    AFTER INSERT
-    ON monitors_metrics
-    FOR EACH ROW
-EXECUTE PROCEDURE update_monitor_last_check();
 
 CREATE TRIGGER update_monitor_state_changes_trigger
     AFTER UPDATE OF status, last_check
