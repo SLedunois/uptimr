@@ -6,6 +6,8 @@ import {MonitorsDetailsHOC} from "@app/containers/monitors/monitors-details";
 import Breadcrumb from "@components/breadcrumb";
 import {MonitorsListHOC} from "@app/containers/monitors/monitors-list";
 
+export const MONITOR_EVENT = "monitor_event";
+
 const Monitors: FunctionComponent = () => {
     const {path} = useRouteMatch();
     const {pathname} = useLocation();

@@ -39,20 +39,21 @@ public class MonitorSubscriber {
 
     @PostConstruct
     public void init() {
+        //FIXME Use a single event
         subscriber = PgSubscriber.subscriber(vertx, DBConnectOptions.options());
-        subscriber.channel("monitor_state_changes")
-                .handler(payload -> processor.onNext(Monitor.from(new JsonObject(payload))));
-        subscriber.channel("monitor_last_check_change")
-                .handler(this::lastCheckChanges);
+        subscriber.channel("monitor_changes")
+                .handler(this::onChanges);
         subscriber.connect()
                 .subscribe().with(unused -> log.debug("PgSubscriber successfully connected"));
     }
 
-    private void lastCheckChanges(String payload) {
+    private void onChanges(String payload) {
         var monitor = Monitor.from(new JsonObject(payload));
         if (processorStore.containsKey(monitor.id)) {
             processorStore.get(monitor.id).onNext(monitor);
         }
+
+        processor.onNext(monitor);
     }
 
     @PreDestroy
@@ -65,7 +66,6 @@ public class MonitorSubscriber {
     }
 
     @GET
-    @Path("/status")
     @Produces(MediaType.SERVER_SENT_EVENTS)
     @RestSseElementType(MediaType.APPLICATION_JSON)
     public Multi<Monitor> notifyMonitors() {

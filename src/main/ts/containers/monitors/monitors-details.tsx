@@ -11,7 +11,7 @@ import {useTranslation} from "react-i18next";
 import Card from "@components/card";
 import {useNotify, withNotify} from "@app/hooks/notify";
 
-const LAST_CHECK_EVENT = 'monitors_last_check_changes';
+const DETAIL_MONITOR_EVENT = "DETAIL_MONITOR_EVENT";
 
 const FETCH_MONITOR = gql`
 query getMonitor($id: String) {
@@ -30,7 +30,7 @@ const MonitorsDetails: FunctionComponent = () => {
     const {id} = useParams<{ id: string }>();
     const {t} = useTranslation();
     const {loading, data} = useQuery(FETCH_MONITOR, {variables: {id}});
-    const notification: IMonitor = useNotify(LAST_CHECK_EVENT);
+    const notification: IMonitor = useNotify(DETAIL_MONITOR_EVENT);
 
 
     if (loading) {
@@ -65,7 +65,7 @@ const MonitorsDetails: FunctionComponent = () => {
 
 export const MonitorsDetailsHOC = () => {
     const {id} = useParams<{ id: string }>();
-    const HOC = withNotify(`/subscribers/monitors/${id}`, LAST_CHECK_EVENT, MonitorsDetails);
+    const HOC = withNotify(`/subscribers/monitors/${id}`, DETAIL_MONITOR_EVENT, MonitorsDetails);
     return <HOC/>
 }
 

@@ -8,7 +8,7 @@ import {gql, useQuery} from "@apollo/client";
 import {useTranslation} from "react-i18next";
 import {useNotify, withNotify} from "@app/hooks/notify";
 
-const STATUS_EVENT = 'monitor_status_changes'
+const LIST_MONITOR_EVENT = "LIST_MONITOR_EVENT";
 
 const FETCH_MONITORS = gql`
 {
@@ -34,7 +34,7 @@ const MonitorsList: FunctionComponent = () => {
     const {loading, data} = useQuery(FETCH_MONITORS);
     const history = useHistory();
     const {t} = useTranslation();
-    const notification = useNotify(STATUS_EVENT);
+    const notification = useNotify(LIST_MONITOR_EVENT);
 
     if (notification && data) {
         updateMonitorStatus(notification, data.getMonitors);
@@ -62,6 +62,6 @@ const MonitorsList: FunctionComponent = () => {
     );
 }
 
-export const MonitorsListHOC = withNotify('/subscribers/monitors/status', STATUS_EVENT, MonitorsList);
+export const MonitorsListHOC = withNotify('/subscribers/monitors', LIST_MONITOR_EVENT, MonitorsList);
 
 export default MonitorsList;

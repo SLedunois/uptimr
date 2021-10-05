@@ -36,11 +36,11 @@ BEGIN
 END;
 $BODY$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION notify_monitor_state_changes() RETURNS TRIGGER AS
+CREATE OR REPLACE FUNCTION notify_monitor_changes() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-    IF NEW.status <> OLD.status THEN
-        PERFORM pg_notify('monitor_state_changes', row_to_json(NEW)::text);
+    IF NEW.status <> OLD.status OR NEW.last_check <> OLD.last_check THEN
+        PERFORM pg_notify('monitor_changes', row_to_json(NEW)::text);
     END IF;
 
     RETURN NEW;
@@ -81,15 +81,6 @@ END;
 $BODY$
     LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION notify_monitor_last_check_changes() RETURNS TRIGGER AS
-$BODY$
-BEGIN
-    PERFORM pg_notify('monitor_last_check_change', row_to_json(NEW)::text);
-
-    RETURN NEW;
-END;
-$BODY$ LANGUAGE plpgsql;
-
 CREATE TRIGGER update_monitor_uptime_trigger
     BEFORE UPDATE OF status
     ON monitors
@@ -102,24 +93,17 @@ CREATE TRIGGER update_monitor_state_trigger
     FOR EACH ROW
 EXECUTE PROCEDURE update_monitor_state();
 
-CREATE TRIGGER update_monitor_state_changes_trigger
-    AFTER UPDATE OF status
-    ON monitors
-    FOR EACH ROW
-EXECUTE PROCEDURE notify_monitor_state_changes();
-
-
 CREATE TRIGGER update_monitor_last_check_trigger
     AFTER INSERT
     ON monitors_metrics
     FOR EACH ROW
 EXECUTE PROCEDURE update_monitor_last_check();
 
-CREATE TRIGGER notify_monitor_last_check_changes_trigger
-    AFTER UPDATE OF last_check
+CREATE TRIGGER update_monitor_state_changes_trigger
+    AFTER UPDATE OF status, last_check
     ON monitors
     FOR EACH ROW
-EXECUTE PROCEDURE notify_monitor_last_check_changes();
+EXECUTE PROCEDURE notify_monitor_changes();
 
 CREATE OR REPLACE FUNCTION format_date(date TIMESTAMP WITHOUT TIME ZONE) RETURNS CHARACTER VARYING AS
 $BODY$
