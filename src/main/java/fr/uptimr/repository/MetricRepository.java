@@ -7,6 +7,9 @@ import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class MetricRepository {
@@ -22,5 +25,21 @@ public class MetricRepository {
                 .execute(Tuple.of(metric.monitorId, metric.target, metric.time, metric.status, metric.fireTime, metric.stacktrace))
                 .onItem().transform(RowSet::iterator)
                 .onItem().transform(m -> m.hasNext() ? Metric.from(m.next()) : null);
+    }
+
+    public Uni<List<TimeBucket>> retrieveTimeBuckets(UUID monitorId, String bucketWidth, LocalDateTime start, LocalDateTime end) {
+        var query = "SELECT time_bucket('" + bucketWidth + "', fire_time) AS bucket, avg(time) as avg " +
+                "FROM monitors_metrics " +
+                "WHERE fire_time >= $1 " +
+                "AND fire_time <= $2 " +
+                "AND monitor_id = $3 " +
+                "GROUP BY bucket " +
+                "ORDER BY bucket ASC;";
+
+        return client.preparedQuery(query)
+                .execute(Tuple.of(start, end, monitorId))
+                .onItem().transformToMulti(RowSet::toMulti)
+                .map(TimeBucket::from)
+                .collect().asList();
     }
 }

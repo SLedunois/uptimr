@@ -1,5 +1,7 @@
 package fr.uptimr.bean;
 
+import java.util.HashMap;
+
 import io.vertx.core.json.JsonObject;
 
 public class MonitorCheck {
@@ -18,10 +20,7 @@ public class MonitorCheck {
     }
 
     public JsonObject toJson() {
-        return new JsonObject()
-                .put("type", this.type)
-                .put("expression", this.expression)
-                .put("value", this.value)
+        return new JsonObject().put("type", this.type).put("expression", this.expression).put("value", this.value)
                 .put("statusCode", this.statusCode);
     }
 }
