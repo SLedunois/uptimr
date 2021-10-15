@@ -23,6 +23,7 @@ public class Metric {
         metric.monitorId = row.get(UUID.class, "monitor_id");
         metric.status = row.getString("status");
         metric.fireTime = row.getLocalDateTime("fire_time");
+        metric.time = row.getLong("time");
         metric.stacktrace = row.getString("stacktrace");
         return metric;
     }

@@ -37,31 +37,19 @@ public class Monitor {
     }
 
     public JsonObject toJson() {
-        return new JsonObject()
-                .put("id", this.id)
-                .put("name", this.name)
-                .put("target", this.target)
-                .put("cron", this.cron)
-                .put("owner", this.owner)
-                .put("status", this.status)
-                .put("lastCheck", this.lastCheck)
-                .put("check", this.check.toJson());
+        return new JsonObject().put("id", this.id).put("name", this.name).put("target", this.target)
+                .put("cron", this.cron).put("owner", this.owner).put("status", this.status)
+                .put("lastCheck", this.lastCheck).put("check", this.check.toJson());
     }
 
     public JobDetail job() {
         var data = new JobDataMap();
         data.put("monitor", this);
-        return JobBuilder.newJob(Processor.class)
-                .setJobData(data)
-                .withIdentity(this.id.toString())
-                .build();
+        return JobBuilder.newJob(Processor.class).setJobData(data).withIdentity(this.id.toString()).build();
     }
 
     public Trigger trigger() {
-        return TriggerBuilder.newTrigger()
-                .withIdentity(this.id.toString())
-                .startNow()
-                .withSchedule(CronScheduleBuilder.cronSchedule(this.cron))
-                .build();
+        return TriggerBuilder.newTrigger().withIdentity(this.id.toString()).startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule(this.cron)).build();
     }
 }

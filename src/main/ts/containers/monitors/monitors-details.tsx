@@ -10,6 +10,8 @@ import Counter from "@components/counter";
 import {useTranslation} from "react-i18next";
 import Card from "@components/card";
 import {useNotify, withNotify} from "@app/hooks/notify";
+import MonitorsResponseTimeChart from "@app/containers/monitors/monitors-response-time-chart";
+import {ParentSize} from "@visx/responsive";
 
 const DETAIL_MONITOR_EVENT = "DETAIL_MONITOR_EVENT";
 
@@ -58,6 +60,11 @@ const MonitorsDetails: FunctionComponent = () => {
                 <Card className="w-1/3 p-8" title={t('monitors.last_check')}>
                     <Counter date={monitor.lastCheck}/>
                 </Card>
+            </div>
+            <div className="mt-8 h-96">
+                <ParentSize>
+                    {({width, height}) => <MonitorsResponseTimeChart height={height} width={width} monitorID={id}/>}
+                </ParentSize>
             </div>
         </div>
     )
