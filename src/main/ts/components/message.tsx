@@ -38,7 +38,7 @@ function getIcon(hour: number): ReactElement {
 }
 
 function getColor(hour: number): string {
-    if ((hour > 21 && hour < 24) || (hour > 0 && hour <= 6)) {
+    if ((hour > 21 && hour < 24) || (hour >= 0 && hour <= 6)) {
         return "blue"
     } else if ((hour > 6 && hour <= 9) || (hour > 18 && hour <= 21)) {
         return "orange"
