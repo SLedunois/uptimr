@@ -1,17 +1,18 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {gql, useQuery} from "@apollo/client";
 import {useParams} from "react-router-dom";
-
-import {IMonitor} from "@app/types";
-
-import Status from "@components/status";
-import Headline from "@components/headline";
-import Counter from "@components/counter";
 import {useTranslation} from "react-i18next";
+import {ParentSize} from "@visx/responsive";
+import {SingleDatePicker} from 'react-dates';
+import moment, {Moment} from 'moment';
+import Status from "@components/status";
+import Title from "@components/title";
+import Counter from "@components/counter";
 import Card from "@components/card";
 import {useNotify, withNotify} from "@app/hooks/notify";
 import MonitorsResponseTimeChart from "@app/containers/monitors/monitors-response-time-chart";
-import {ParentSize} from "@visx/responsive";
+
+import {IMonitor} from "@app/types";
 
 const DETAIL_MONITOR_EVENT = "DETAIL_MONITOR_EVENT";
 
@@ -32,6 +33,8 @@ const MonitorsDetails: FunctionComponent = () => {
     const {id} = useParams<{ id: string }>();
     const {t} = useTranslation();
     const {loading, data} = useQuery(FETCH_MONITOR, {variables: {id}});
+    const [chartDate, setChartDate] = useState<Moment>(moment());
+    const [datePickerFocused, setDatePickerFocused] = useState<boolean>(false);
     const notification: IMonitor = useNotify(DETAIL_MONITOR_EVENT);
 
 
@@ -45,13 +48,23 @@ const MonitorsDetails: FunctionComponent = () => {
         return <div>Error :(</div>
     }
 
+    const chartDateFilter = <SingleDatePicker date={chartDate}
+                                              onDateChange={date => setChartDate(date)}
+                                              focused={datePickerFocused}
+                                              onFocusChange={({focused}) => setDatePickerFocused(focused)}
+                                              id="day-response-time-picker"
+                                              numberOfMonths={1}
+                                              noBorder
+                                              small
+                                              isOutsideRange={(day) => !(day.isBefore(moment(), 'days') || day.isSame(moment(), 'days'))}/>
+
     return (
         <div>
             <div className="flex flex-row justify-items items-center">
                 <div className="mr-4">
                     <Status status={monitor.status}/>
                 </div>
-                <Headline.Title label={monitor.name}/>
+                <Title.H1 label={monitor.name}/>
             </div>
             <div className="flex">
                 <Card className="w-1/3 p-8 mr-8" title={t('monitors.currently_uptime')}>
@@ -61,11 +74,12 @@ const MonitorsDetails: FunctionComponent = () => {
                     <Counter date={monitor.lastCheck}/>
                 </Card>
             </div>
-            <div className="mt-8 h-96">
+            <Card className="h-96 mt-8 p-8" title={"Response time over the day"} filter={chartDateFilter}>
                 <ParentSize>
-                    {({width, height}) => <MonitorsResponseTimeChart height={height} width={width} monitorID={id}/>}
+                    {({width, height}) => <MonitorsResponseTimeChart height={height} width={width} monitorID={id}
+                                                                     date={chartDate.toDate()}/>}
                 </ParentSize>
-            </div>
+            </Card>
         </div>
     )
 }

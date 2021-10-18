@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import Headline from "@components/headline";
+import Title from "@components/title";
 import Button from "@components/button";
 import {IMonitor} from "@app/types";
 import {MonitorItem} from "@components/monitor-item";
@@ -44,7 +44,7 @@ const MonitorsList: FunctionComponent = () => {
     return (
         <div>
             <div className="flex items-center justify-between">
-                <Headline.Title label={t('monitors.title')}/>
+                <Title.H1 label={t('monitors.title')}/>
                 <Button.Primary label={t('monitors.create')}
                                 onClick={() => history.push('/monitors/new')}/>
             </div>

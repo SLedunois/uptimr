@@ -1,15 +1,29 @@
-import React, { FunctionComponent } from 'react';
-import { LinearGradient } from '@visx/gradient';
-import { AnimatedAxis, AreaSeries, Tooltip, XYChartTheme, XYChart } from '@visx/xychart';
-import { curveCatmullRom as Curve } from '@visx/curve';
-import { BandScaleConfig, D3Scale, ScaleConfig, ScaleInput } from '@visx/scale';
-import { DatumObject } from '@visx/shape/lib/types';
-import { RenderTooltipParams } from '@visx/xychart/lib/components/Tooltip';
-import { AxisScaleOutput } from '@visx/axis';
+import React, {FunctionComponent} from 'react';
+import {LinearGradient} from '@visx/gradient';
+import {AnimatedAxis, AreaSeries, Tooltip, XYChart, XYChartTheme} from '@visx/xychart';
+import {curveCatmullRom as Curve} from '@visx/curve';
+import {BandScaleConfig, D3Scale, ScaleConfig, ScaleInput} from '@visx/scale';
+import {DatumObject} from '@visx/shape/lib/types';
+import {RenderTooltipParams} from '@visx/xychart/lib/components/Tooltip';
+import {AxisScaleOutput} from '@visx/axis';
 
-import { IChartDateValue } from '@app/types';
+import {IChartDateValue} from '@app/types';
 
-type IScaleType = "linear" | "log" | "pow" | "sqrt" | "symlog" | "radial" | "time" | "utc" | "quantile" | "quantize" | "threshold" | "ordinal" | "point" | "band";
+type IScaleType =
+    "linear"
+    | "log"
+    | "pow"
+    | "sqrt"
+    | "symlog"
+    | "radial"
+    | "time"
+    | "utc"
+    | "quantile"
+    | "quantize"
+    | "threshold"
+    | "ordinal"
+    | "point"
+    | "band";
 
 export type ILineChartSeries = {
     key: string
@@ -36,24 +50,25 @@ export type ILineChart = {
     className?: string
 }
 
-const LineChart: FunctionComponent<ILineChart> = ({ id, width, height, settings, className = '' }) => (
-    <div className="visx-curves">
-        <XYChart height={height} width={width} xScale={settings.xScale as ScaleConfig<AxisScaleOutput>} theme={settings.theme}
-            yScale={settings.yScale as BandScaleConfig<AxisScaleOutput>}>
-            <LinearGradient id={id} from="#DCDAF3" to="#FFFFFF" />
-            <AnimatedAxis orientation="bottom" />
-            <AnimatedAxis orientation="left" />
+const LineChart: FunctionComponent<ILineChart> = ({id, width, height, settings, className = ''}) => (
+    <div className={`visx-curves ${className}`}>
+        <XYChart height={height} width={width} xScale={settings.xScale as ScaleConfig<AxisScaleOutput>}
+                 theme={settings.theme}
+                 yScale={settings.yScale as BandScaleConfig<AxisScaleOutput>}>
+            <LinearGradient id={id} from="#DCDAF3" to="#FFFFFF"/>
+            <AnimatedAxis orientation="bottom"/>
+            <AnimatedAxis orientation="left"/>
             <AreaSeries
                 dataKey={settings.series.key}
                 data={settings.series.values}
                 xAccessor={settings.series.xAccessor}
                 yAccessor={settings.series.yAccessor}
                 curve={Curve}
-                fill={`url(#${id})`} />
+                fill={`url(#${id})`}/>
             {
                 settings.showTooltip && <Tooltip
                     showSeriesGlyphs
-                    renderTooltip={settings.renderTooltip} />
+                    renderTooltip={settings.renderTooltip}/>
             }
         </XYChart>
     </div>

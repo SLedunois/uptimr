@@ -3,12 +3,16 @@ import UI from "@components/ui";
 
 type ICard = {
     title: string,
+    filter?: React.ReactElement
     className?: string
 }
 
-const Card: FunctionComponent<ICard> = ({title, children, className = ''}) => (
+const Card: FunctionComponent<ICard> = ({title, children, className = '', filter}) => (
     <UI.Shadow className={className}>
-        <div className="text-sm">{title}</div>
+        <div className="flex flex-row justify-between items-center">
+            <div className="text-md font-bold">{title}</div>
+            {filter}
+        </div>
         {children}
     </UI.Shadow>
 )

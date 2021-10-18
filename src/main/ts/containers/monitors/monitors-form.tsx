@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useState} from 'react';
 import CronParser from 'cron-parser';
-import Headline from "@components/headline";
+import Title from "@components/title";
 import Form, {ISelectItem} from "@components/form";
 import UI from "@components/ui";
 import Button from '@components/button'
@@ -88,8 +88,8 @@ const MonitorsForm: FunctionComponent = () => {
 
     return (
         <form className="w-3/4 mx-auto" onSubmit={createMonitorHandler}>
-            <Headline.Title label={t("monitors.create")}/>
-            <Headline.Subtitle label={t("monitors.details")} className="mb-0"/>
+            <Title.H1 label={t("monitors.create")}/>
+            <Title.H2 label={t("monitors.details")} className="mb-0"/>
             <Form.Section className="mt-0">
                 <Form.Column size="2/5" className="mr-6 py-8">
                     <div dangerouslySetInnerHTML={{__html: t('monitors.form.details')}}/>
@@ -114,7 +114,7 @@ const MonitorsForm: FunctionComponent = () => {
                     </UI.Shadow>
                 </Form.Column>
             </Form.Section>
-            <Headline.Subtitle label={t("monitors.form.settings.advanced")} className="mb-0"/>
+            <Title.H2 label={t("monitors.form.settings.advanced")} className="mb-0"/>
             <Form.Section className="mt-0">
                 <Form.Column size="2/5" className="mr-6 py-8">
                     <div dangerouslySetInnerHTML={{__html: t('monitors.form.settings.details')}}/>

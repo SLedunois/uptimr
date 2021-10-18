@@ -5,7 +5,7 @@ type IShadow = {
 }
 
 const Shadow: FunctionComponent<IShadow> = ({children, className = ''}) => (
-    <div className={`${className} shadow-sm bg-white rounded-md overflow-hidden`}>{children}</div>
+    <div className={`${className} shadow-sm bg-white rounded-md`}>{children}</div>
 );
 
 const UI = {
